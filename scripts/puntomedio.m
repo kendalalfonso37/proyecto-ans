@@ -10,9 +10,9 @@ function puntomedio
   #Entrada de datos
   g = inputdlg("Ingrese la Funcion: ", "Metodo de Integracion por Punto Medio");
   f=inline(g{1,1}); #Convierte el string a una funcion para evaluar
-  a=inputdlg("Ingrese el extremo inferior de la Integral: ");
-  b=inputdlg("Ingrese el extremo superior de la Integral: ");
-  n=inputdlg("Ingrese la cantidad de puntos medios a utilizar:");
+  a=inputdlg("Ingrese el extremo inferior de la Integral: ", "");
+  b=inputdlg("Ingrese el extremo superior de la Integral: ", "");
+  n=inputdlg("Ingrese la cantidad de puntos medios a utilizar:", "");
   
   # Conversiones de datos para la integracion
   aa = str2num(a{1,1});

@@ -5,8 +5,8 @@
 #msgbox("Metodo de la integral simple: \n");
 g = inputdlg("Ingrese la funcion a integrar:",'Metodo de la Integral Simple');
 f = inline(g{1,1});
-a = inputdlg("Ingrese el limite inferior a evaluar:");
-b = inputdlg("Ingrese el limite superior a evaluar:");
+a = inputdlg("Ingrese el limite inferior a evaluar:", "");
+b = inputdlg("Ingrese el limite superior a evaluar:", "");
 
 # Conversion a Enteros de los inputdlg
 aa = str2num(a{1,1});
