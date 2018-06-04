@@ -17,7 +17,7 @@ if(flag == '1')
 elseif(flag == '2')
   run puntomedio.m
 elseif(flag == '3')
-  run alextrapecio.m
+  run reglaTrapecio.m
 elseif(flag == '4')
   run simpson.m
 elseif(flag == '5')

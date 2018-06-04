@@ -1,15 +1,4 @@
-#SIMPSON'S COMPOSITE ALGORITHM 4.1
-#
-# To approximate I = integral ( ( f(x) dx ) ) from a to b:
- #
- #INPUT:   endpoints a, b; even positive integer n.
- #
- #OUTPUT:  approximation XI to I.
- clc;
-#funcprot(0);
-#ieee(2);
-format long;
-
+ format long;
  TRUE = 1;
  FALSE = 0;
  printf('Metodo de simpson.\n\n');
