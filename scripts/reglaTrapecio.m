@@ -1,16 +1,16 @@
 function [F,DD,cota,acumulador,tiempo] = reglaTrapecio(x,fx,ddx,F,DD,a,b,h)
-  %%_____PARAMETROS DE LA FUNCI√ìN TRAPECIO_______________
+  %%_____PARAMETROS DE LA FUNCI”N TRAPECIO_______________
   % x es el vector que contiene las x a evaluar
-  % fx es la funci√≥n evaluable
+  % fx es la funciÛn evaluable
   % ddx es la segunda derivada evaluable
-  % F es la funci√≥n como cadena para mostrar al final
+  % F es la funciÛn como cadena para mostrar al final
   % DD es la segunda derivada como cadena
   % a es el punto inicial del interbalo
   % b es el punto final del interbalo
   % h es el ancho de cada trapecio pra este caso
   
   %%______PARAMETROS DE SALIDA____________________________
-  % cota es la cota de error que se calcul√≥
+  % cota es la cota de error que se calculÛ
   % acumulador es el valor de la integral
   % tiempo es el tiempo que tardo en realizarse el algoritmo
   
@@ -20,27 +20,27 @@ format long;
 %_________________________________METODO DEL TRAPECIO______________________________________
    
       
-    %__VALORES DE X QUE SER√ÅN LOS LADOS DE LOS TRAPECIOS Y LUEGO PIDO LA FUNCI√ìN Y SU SEGUNDA DERIVADA
+    %__VALORES DE X QUE SER¡N LOS LADOS DE LOS TRAPECIOS Y LUEGO PIDO LA FUNCI”N Y SU SEGUNDA DERIVADA
     n = length(x); %n es el numero de intervalor o se trapecios
-    fprintf('_________________________________________________________________________________\n', fx); 
+    fprintf('_________________________________________________________________________________\n'); 
     t1=tic;% Se inicial el cronometro antes de iniciar el algoritmo
     acumulador=0; i=1; 
         while i<n+1
           if(i==1 || i==n)       
-             acumulador = acumulador + fx(x(i));%acumulador llevar√° acumulada la suma de los f(x) 
+             acumulador = acumulador + fx(x(i));%acumulador llevar· acumulada la suma de los f(x) 
           else
              acumulador = acumulador + 2*fx(x(i));% los valores intermedios se multiplican por 2
           end
           if(i==n)
           acumulador = acumulador*h/2; %% VALOR APROXIMADO FINAL 
-          tiempo=toc(t1) 
+          tiempo=toc(t1);
           fprintf('Tiempo transcurrido: %10.6f \n',tiempo);
           end
           i++;
         endwhile
         
-      plot(x,fx(x),'r')
-      fprintf('\nValor aproximado: %10.6f  \n', acumulador); 
+      %plot(x,fx(x),'r')
+      %fprintf('\nValor aproximado: %10.6f  \n', acumulador); 
     %_CALCULO DE LA COTA DEL ERROR VALOR MAXIMO DE F''X
       i=1; derivada=[];
     %_____BUSCO EL VALOR MAYOR EN LA DERIVADA, EVALUO EN EL INTERVALO Y GUARDO EN UN VECTOR
@@ -70,6 +70,7 @@ format long;
       fprintf('Cota del error: %10.6f \n', cota);
       
       
+
     
 %______________________FIN TRAPECIO______________________________________________________________________________
 endfunction

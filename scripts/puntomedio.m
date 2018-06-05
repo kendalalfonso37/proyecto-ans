@@ -5,8 +5,6 @@
 ## el tiempo que se tardo la ejecucion del metodo y un
 ## margen de error del metodo
 function [F,cota,acumulador,tiempo,x,rx,fx,frx] = puntomedio(x,fx,F,a,b,n)
-
-  #printf("\n");
   #Entrada de datos
   %g = inputdlg("Ingrese la Funcion: ", "Metodo de Integracion por Punto Medio");
   f=fx;%inline(g{1,1}); #Convierte el string a una funcion para evaluar
@@ -18,7 +16,7 @@ function [F,cota,acumulador,tiempo,x,rx,fx,frx] = puntomedio(x,fx,F,a,b,n)
   aa = a;
   bb = b; 
   nn = n;
-  
+   
   #Vectores para plotear mas adelante
   x = [aa:0.05:bb];
   rx = linspace(aa,bb,nn);
@@ -37,7 +35,6 @@ function [F,cota,acumulador,tiempo,x,rx,fx,frx] = puntomedio(x,fx,F,a,b,n)
   endfor
   t1=toc;
   #Fin del metodo del punto medio
-  
   #Calculo de la cota de error:
   err = S.-q;
   acumulador=S;
@@ -48,7 +45,6 @@ function [F,cota,acumulador,tiempo,x,rx,fx,frx] = puntomedio(x,fx,F,a,b,n)
   #printf("", );
   #printf(" %f \n", );
   %msgbox(p1, "Resultados de la Integral", "help");
-
 
   
   fx=f(x);
