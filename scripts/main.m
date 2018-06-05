@@ -1,27 +1,40 @@
-# Nombre: main.m
-# Objetivo: Funcion principal de la aplicacion: Este sera el ejecutable que mandara a
-# llamar a las demas funciones de integracion por medio de una interfaz (GUI)
-# Jerarquia: /
-# Nota: Para mandar a llamar alguna funcion usar la instruccion:
-# run scripts/simple.m
+%_________________PANTALLA DE INICIO PARA LA APLICACIÓN_________________________________
+rowscols = [1,10; 1,10; 1,10; 1,30; 1,30 ; 1,30 ];
+hh=0.01;aa=0;bb=3;f='x.^3';dd= '6.*x', n=100;
+prompt = {"h", "a", "b", "fx", "ddx","n"};
+defaults = {hh, aa, bb, f, dd, n};
 
-# Bienvenida de la funcion y entrada del metodo a utilizar
-helpdlg("Ingrese el numero del metodo que desea utilizar para realizar la Integracion en el siguiente cuadro de dialogo:\n\n1: Integracion Simple\n2: Integracion por Metodo del Punto Medio\n3: Integracion por Metodo del Trapecio\n4: Integracion por Regla de Simpson\n5: Integracion por Cuadratura Gaussiana", "Metodos de Integracion");
-val = inputdlg("Ingrese el numero del metodo que desea utilizar para realizar la Integracion(1-5):", "Metodos de Integracion");
-flag = val{1,1};
 
-# Seleccion del metodo a integrar
-# addpath("");
-if(flag == '1')
-  run simple.m
-elseif(flag == '2')
-  run puntomedio.m
-elseif(flag == '3')
-  run reglaTrapecio.m
-elseif(flag == '4')
-  run simpson.m
-elseif(flag == '5')
-  run CuadraturaGaussiana.m
-else
-  errordlg('El numero que ha ingresado no es correcto','Opcion Equivocada')
-endif
+dims = inputdlg (prompt, "Enter Box Dimensions",rowscols, defaults);
+  
+%__________________________________________________________________________________________
+
+%EXTRAYENDO LOS DATOS DE LA INTERFAZ
+      a =aa
+      h =hh
+      b =bb
+      x=a:h:b;
+      fx=inline(f)
+      ddx=inline(dd)
+      F=f
+      DD=dd
+%________________________________________________________________________
+
+  [F,DD,cota,acumulador,tiempo]=reglaTrapecio(x,fx,ddx,F,DD,a,b,h)
+      rowscols = [1,20; 1,20; 1,10; 1,10; 1,10 ];
+      prompt = {"fx", "ddx","Cota de error", "Valor aproximado", "Tiempo"};
+      defaults = {F, DD, cota,acumulador,tiempo};
+      dims = inputdlg (prompt, "Enter Box Dimensions",rowscols, defaults);
+      
+      
+      
+      
+  [F,cota,acumulador,tiempo,x,rx,fx,frx]=puntomedio(x,fx,F,a,b,n)
+      rowscols = [1,20; 1,20; 1,10; 1,10];
+      prompt = {"fx","Cota de error", "Valor aproximado", "Tiempo"};
+      defaults = {F, cota,acumulador,tiempo};
+      dims = inputdlg (prompt, "Enter Box Dimensions",rowscols, defaults);
+    
+  hold on   
+  plot(x,fx,'r');
+  plot(rx, frx, 'm');
