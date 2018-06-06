@@ -1,4 +1,4 @@
-function [F,DD,cota,acumulador,tiempo] = reglaTrapecio(x,fx,ddx,F,DD,a,b,h)
+function [cota,acumulador,tiempo] = reglaTrapecio(x,fx,ddx,F,DD,a,b,h)
   %%_____PARAMETROS DE LA FUNCIÓN TRAPECIO_______________
   % x es el vector que contiene las x a evaluar
   % fx es la función evaluable
@@ -13,6 +13,7 @@ function [F,DD,cota,acumulador,tiempo] = reglaTrapecio(x,fx,ddx,F,DD,a,b,h)
   % cota es la cota de error que se calculó
   % acumulador es el valor de la integral
   % tiempo es el tiempo que tardo en realizarse el algoritmo
+ 
   
 format long;
 %fx= e.^(3*x).*sin(2*x);
@@ -67,7 +68,7 @@ format long;
        
       %COTA DEL ERROR PARA ESTE METODO:
       cota=((b-a)^3/12)*mayor; 
-      fprintf('Cota del error: %10.6f \n', cota);
+      fprintf('acumulador %10.6f \n', acumulador);
       
       
 
