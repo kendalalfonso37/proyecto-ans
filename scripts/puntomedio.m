@@ -5,6 +5,21 @@
 ## el tiempo que se tardo la ejecucion del metodo y un
 ## margen de error del metodo
 function [F,cota,acumulador,tiempo,x,rx,fx,frx] = puntomedio(x,fx,F,a,b,n)
+  %%_____PARAMETROS DE LA FUNCI�N puntomedio_______________
+  % x es el vector que contiene las x a evaluar
+  % fx es la funci�n evaluable
+  % ddx es la segunda derivada evaluable
+  % F es la funci�n como cadena para mostrar al final
+  % DD es la segunda derivada como cadena
+  % a es el punto inicial del interbalo
+  % b es el punto final del interbalo
+  % h es el ancho de cada trapecio pra este caso
+  
+  %%______PARAMETROS DE SALIDA____________________________
+  % cota es la cota de error que se calcul�
+  % acumulador es el valor de la integral
+  % tiempo es el tiempo que tardo en realizarse el algoritmo
+  
   #Entrada de datos
   %g = inputdlg("Ingrese la Funcion: ", "Metodo de Integracion por Punto Medio");
   f=fx;%inline(g{1,1}); #Convierte el string a una funcion para evaluar
