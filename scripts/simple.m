@@ -1,4 +1,4 @@
-function [cota,acumulador,tiempo] = simpson(fx,F,a,b)
+function [cota,acumulador,tiempo] = simple(fx,F,a,b)
 ## metodo de la integral simple
 ## Autor: Kendal Sosa
 ## Presentacion y entrada de datos
