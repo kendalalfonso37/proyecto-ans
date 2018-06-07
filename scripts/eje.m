@@ -28,3 +28,29 @@ if (ok == 1)
 else
   disp ("Desea cancelar?");
 endif
+
+
+btn = questdlg ("Close Octave?", "Some fancy title", "Yes", "No", "No");
+if (strcmp (btn, "Yes"))
+  exit ();
+endif
+
+msgbox ("Some message for the user.");
+msgbox ("Some message\nwith two lines.");
+msgbox ({"Some message", "with two lines."});
+msgbox ("Some message for the user.", "Fancy caption");
+
+% A message dialog box with error icon
+msgbox ("Some message for the user.", "Fancy caption", "error");
+
+
+## create an empty dialog window titled "Dialog Example"
+h = dialog ("name", "Dialog Example");
+
+## create a button (default style)
+b = uicontrol (h, "string", "OK",
+                  "position", [10 10 150 40],
+                  "callback", "delete (gcf)");
+
+## wait for dialog to resume or close
+uiwait (h);
