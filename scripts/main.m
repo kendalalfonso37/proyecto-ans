@@ -1,13 +1,16 @@
 
 clear
 
-        a=0;h=0;b=0;n=0;N=0;fx=0;ddx=0;F=0;DD=0;xori=0;ftrap=0;xtrap=0;fori=0;
+  a=0;h=0;b=0;n=0;N=0;fx=0;ddx=0;F=0;DD=0;xori=0;ftrap=0;xtrap=0;fori=0;
   malo=true;
   while malo==true
+    ayuda="VARIABLE: descripcion  \nh: Usada en trapecios (ancho) y el metodo de cuadratura gaussiana \na: Usada en todos los metodos, punto de inicio de la integral \nb: Usada en todos los metodos, punto de final de la integral \nfx: Es la funcion de x a integrar \nddx: Es la segunda derivada de f(x) usada en trapecios para la cota de error \nn: Numero de particiones a tomar en el metodo de punto medio  \nN: Usado en el metodo de simpson \n \n  NOTA: LOS VALORES INICIALES PRESENTES SON SOLO UN EJEMPLO DEL CORRECTO USO DE CADA CAMPO, FAVOR APEGARSE A LA SINTAXIS";
+      msgbox (ayuda,'AYUDA INICIAL');
      %_________________PANTALLA DE INICIO PARA LA APLICACIÓN_________________________________
     rowscols = [1,10; 1,10; 1,10; 1,30; 1,30 ; 1,10; 1,10 ];
     hh=0.5;aa=1;bb=2.5;f='x.^4';dd= '12.*x^3'; n=20;N=50;
     prompt = {"h", "a", "b", "fx", "ddx","n", "N"};
+    
     defaults = {hh, aa, bb, f, dd, n, N};
     dims = inputdlg(prompt, "Digite los datos necesarios",rowscols, defaults);  
     %__________________________________________________________________________________________
@@ -39,7 +42,7 @@ clear
 
 %____________________listado_____________________________________________
 
-my_options = {"Metodo de trapecios", "Simpson", "Punto Medio", "Metodo Simple", "Quadratura gaussiana"};
+my_options = {"Metodo de trapecios", "Simpson", "Punto Medio", "Metodo Simple", "Quadratura gaussiana","Ver ayuda"};
 [sel, ok] = listdlg ("ListString", my_options, "SelectionMode", "Multiple");
 if (ok == 1)
   disp ("You selected:");
@@ -80,6 +83,11 @@ if (ok == 1)
         defaults = {F,a,b,cota,acumulador,tiempo};
         dims = inputdlg (prompt, "CUADRATURA GAUSSIANA",rowscols, defaults); 
     end
+     if(i==6)
+     ayuda="VARIABLE: descripcion  \nh: Usada en trapecios (ancho) y el metodo de cuadratura gaussiana \na: Usada en todos los metodos, punto de inicio de la integral \nb: Usada en todos los metodos, punto de final de la integral \nfx: Es la funcion de x a integrar \nddx: Es la segunda derivada de f(x) usada en trapecios para la cota de error \nn: Numero de particiones a tomar en el metodo de punto medio  \nN: Usado en el metodo de simpson \n \n  NOTA: LOS VALORES INICIALES PRESENTES SON SOLO UN EJEMPLO DEL CORRECTO USO DE CADA CAMPO, FAVOR APEGARSE A LA SINTAXIS";
+     msgbox (ayuda,'AYUDA INICIAL');
+      
+    end
   endfor
 else
   disp ("Desea cancelar?");
@@ -88,13 +96,13 @@ endif
 %________________________________________________________________________
   hold on
   subplot(4,1,1);  
-  plot(xtrap ,ftrap,'@-g');
+  plot(xori,fori,'.-r'); title ("Funcion original");xlabel("x");ylabel(F);
   subplot(4,1,2);
-  plot(xori,fori,'*-r');
+  plot(xtrap ,ftrap,'@-g');title ("Metodo de trapecios");xlabel("x");ylabel(F);
   subplot(4,1,3) 
-  plot(xp,yp,'o-b');
+  plot(xp,yp,'o-b');title ("Metodo de  punto medio");xlabel("x");ylabel(F);
   subplot(4,1,4);
-  plot(xsim,ysim,'*-y');
+  plot(xsim,ysim,'*-y');title ("Metodo de simpson");xlabel("x");ylabel(F);
   hold off
   #plot(rx, frx, 'm');
       
