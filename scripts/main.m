@@ -45,44 +45,51 @@ clear
 my_options = {"Metodo de trapecios", "Simpson", "Punto Medio", "Metodo Simple", "Quadratura gaussiana","Ver ayuda"};
 [sel, ok] = listdlg ("ListString", my_options, "SelectionMode", "Multiple");
 
-      [cotaT,acumuladorT,tiempoT]=reglaTrapecio(xtrap,fx,ddx,F,DD,a,b,h)
-      [xsim,ysim,cotaN,acumuladorN,tiempoN] = simpson(fx,F,a,b,N);
-      [xp,yp,cotaP,acumuladorP,tiempoP]=puntomedio(fx,F,a,b,n);
-      [cotaS,acumuladorS,tiempoS] = simple(fx,F,a,b);
-      [cota,acumulador,tiempo]=cgaussiana(fx,ddx,a,b,h)
+      datos="Metodo_______________\t Cota de error     -      Resultado    -     Tiempo";  
+      
 if (ok == 1)
   disp ("You selected:");
   for i = 1:numel (sel)
     if(i==1)
+    [cotaT,acumuladorT,tiempoT]=reglaTrapecio(xtrap,fx,ddx,F,DD,a,b,h)
         %function [F,DD,cota,acumulador,tiempo] = reglaTrapecio(x,fx,ddx,F,DD,a,b,h)
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
         prompt = {"fx","Lim inferior","Lim superior","Cota de error", "Valor aproximado", "Tiempo"};
         defaults = {F,a,b,cotaT,acumuladorT,tiempoT};
         dimst = inputdlg (prompt, "METRODO DE TRAPECIOS",rowscols, defaults);
+        datos=strcat(datos,"\nTrapecios__________\t",num2str(cotaT,"%5.14f"),"\t---",num2str(acumuladorT,"%5.5f"),"\t---",num2str(tiempoT,"%5.10f"));
     end
     if(i==2)
+    [xsim,ysim,cotaN,acumuladorN,tiempoN] = simpson(fx,F,a,b,N);
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
         prompt = {"fx","Lim inferior","Lim superior","Cota de error", "Valor aproximado", "Tiempo"};
         defaults = {F,a,b,cotaN,acumuladorN,tiempoN};
         dimsn = inputdlg (prompt, "METODO DE SIMPSON",rowscols, defaults);
+        datos=strcat(datos,"\nSimpson____________\t",num2str(cotaN,"%5.14f"),"\t---",num2str(acumuladorN,"%5.5f"),"\t---",num2str(tiempoN,"%5.10f"));
     end
-    if(i==3)      
+    if(i==3) 
+     [xp,yp,cotaP,acumuladorP,tiempoP]=puntomedio(fx,F,a,b,n);    
           rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
           prompt = {"fx","Lim inferior","Lim superior","cota", "resultado", "tiempo"};
           defaults = {F,a,b,cotaP,acumuladorP,tiempoP};
           dimsp = inputdlg (prompt, "METODO DE PUNTO MEDIO",rowscols, defaults);
+          datos=strcat(datos,"\nPunto medio________\t",num2str(cotaP,"%5.14f"),"\t---",num2str(acumuladorP,"%5.5f"),"\t---",num2str(tiempoP,"%5.10f"));
     end
     if(i==4)
+    [cotaS,acumuladorS,tiempoS] = simple(fx,F,a,b);
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
         prompt = {"fx","Lim inferior","Lim superior","Cota de error", "Valor aproximado", "Tiempo"};
         defaults = {F,a,b, cotaS,acumuladorS,tiempoS};
         dims = inputdlg (prompt, "METODO SIMPLE",rowscols, defaults);  
+        datos=strcat(datos,"\nSimple_____________\t",num2str(cotaS,"%5.14f"),"\t---",num2str(acumuladorS,"%5.5f"),"\t---",num2str(tiempoS,"%5.10f"));
     end
     if(i==5)
+      [cota,acumulador,tiempo]=cgaussiana(fx,ddx,a,b,h)
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
         prompt = {"fx","Lim inferior","Lim superior","Cota de error", "Valor aproximado", "Tiempo"};
         defaults = {F,a,b,cota,acumulador,tiempo};
-        dimscg = inputdlg (prompt, "CUADRATURA GAUSSIANA",rowscols, defaults); 
+        dimscg = inputdlg (prompt, "CUADRATURA GAUSSIANA",rowscols, defaults);
+        datos=strcat(datos,"\nCuadratura de Gauss\t",num2str(cota,"%5.14f"),"\t---",num2str(acumulador,"%5.5f"),"\t---",num2str(tiempo,"%5.10f"));
     end
      if(i==6)
      ayuda="VARIABLE: descripcion  \nh: Usada en trapecios (ancho) y el metodo de cuadratura gaussiana \na: Usada en todos los metodos, punto de inicio de la integral \nb: Usada en todos los metodos, punto de final de la integral \nfx: Es la funcion de x a integrar \nddx: Es la segunda derivada de f(x) usada en trapecios para la cota de error \nn: Numero de particiones a tomar en el metodo de punto medio  \nN: Usado en el metodo de simpson \n \n  NOTA: LOS VALORES INICIALES PRESENTES SON SOLO UN EJEMPLO DEL CORRECTO USO DE CADA CAMPO, FAVOR APEGARSE A LA SINTAXIS";
@@ -90,19 +97,8 @@ if (ok == 1)
       
     end
   endfor
-  
-      datos=strcat(
-"Metodo_______________\t Cota de error     -      Resultado    -     Tiempo",
-"\nTrapecios__________\t",num2str(cotaT,"%5.14f"),"\t---",num2str(acumuladorT,"%5.5f"),"\t---",num2str(tiempoT,"%5.10f"), 
-"\nSimpson____________\t",num2str(cotaN,"%5.14f"),"\t---",num2str(acumuladorN,"%5.5f"),"\t---",num2str(tiempoN,"%5.10f"),
-"\nPunto medio________\t",num2str(cotaP,"%5.14f"),"\t---",num2str(acumuladorP,"%5.5f"),"\t---",num2str(tiempoP,"%5.10f"),
-"\nSimple_____________\t",num2str(cotaS,"%5.14f"),"\t---",num2str(acumuladorS,"%5.5f"),"\t---",num2str(tiempoS,"%5.10f"),
-"\nCuadratura de Gauss\t",num2str(cota,"%5.14f"),"\t---",num2str(acumulador,"%5.5f"),"\t---",num2str(tiempo,"%5.10f"));
-      
-      %"\nMetodo de Simpson \t\t",num2str(cotaN,"%5.5f"),"\t\t",num2str(acumuladorN,"%5.5f"),"\t\t",num2str(tiempoN,"%5.5f"),"\nMetodo de punto medio \t\t\t",num2str(cotaP,,"%5.5f"),"\t\t\t",num2str(acumuladorP,"%5.5f"),"\t\t",num2str(tiempoP,"%5.5f"),"\nMetodo de metodo simple \t\t\t",num2str(cotaS,"%5.5f"),"\t\t",num2str(acumuladorS,"%5.5f"),"\t\t",num2str(tiempoS,"%5.5f"),"\nMetodo de cuadratura de Gauss \t\t\t",num2str(cota,"%5.5f"),"\t\t",num2str(acumulador,"%5.5f"),"\t\t",num2str(tiempo,"%5.5f")
-      %,"\nMetodo de  \t\t",num2str(cota),"\t\t",acumulador,"\t\t",tiempo);
-      
-  %"\n",cota,"\t\t",acumulador,"\t\t",tiempo
+
+
       msgbox (datos,'Rsumen de datos');
 else
   disp ("Desea cancelar?");
