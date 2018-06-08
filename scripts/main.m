@@ -1,9 +1,11 @@
 
 clear
-
+  
+  xori=[];fori=[]; xtrap=[]; ftrap=[]; xp=[];yp=[]; xsim=[]; ysim=[];
   a=0;h=0;b=0;n=0;N=0;fx=0;ddx=0;F=0;DD=0;xori=0;ftrap=0;xtrap=0;fori=0;
   malo=true;
   while malo==true
+    
     ayuda="VARIABLE: descripcion  \nh: Usada en trapecios (ancho) y el metodo de cuadratura gaussiana \na: Usada en todos los metodos, punto de inicio de la integral \nb: Usada en todos los metodos, punto de final de la integral \nfx: Es la funcion de x a integrar \nddx: Es la segunda derivada de f(x) usada en trapecios para la cota de error \nn: Numero de particiones a tomar en el metodo de punto medio  \nN: Usado en el metodo de simpson \n \n  NOTA: LOS VALORES INICIALES PRESENTES SON SOLO UN EJEMPLO DEL CORRECTO USO DE CADA CAMPO, FAVOR APEGARSE A LA SINTAXIS";
       msgbox (ayuda,'AYUDA INICIAL');
      %_________________PANTALLA DE INICIO PARA LA APLICACIÓN_________________________________
@@ -26,8 +28,7 @@ clear
       F=  dims{4,1}
       DD= dims{5,1}
       xori= a:0.01:b;
-      xtrap=a:h:b; % para el metodo de trapecios   
-      ftrap=fx(xtrap);
+
       fori=fx(xori);
       defaults = {h, a, b, fx, ddx, n, N};
       if a>b || h<0 ||n<0 ||N<0 
@@ -45,12 +46,15 @@ clear
 my_options = {"Metodo de trapecios", "Simpson", "Punto Medio", "Metodo Simple", "Quadratura gaussiana","Ver ayuda"};
 [sel, ok] = listdlg ("ListString", my_options, "SelectionMode", "Multiple");
 
-      datos="Metodo_______________\t Cota de error     -      Resultado    -     Tiempo";  
+      datos=strcat("Valor aproximado: ",num2str(quadcc(fx,a,b,0.00000000000001),"%5.14f"),"\n","Metodo_______________\t Cota de error     -      Resultado    -     Tiempo");  
       
 if (ok == 1)
   disp ("You selected:");
   for i = 1:numel (sel)
-    if(i==1)
+    if(sel(i)==1)
+    
+      xtrap=a:h:b; % para el metodo de trapecios   
+      ftrap=fx(xtrap);
     [cotaT,acumuladorT,tiempoT]=reglaTrapecio(xtrap,fx,ddx,F,DD,a,b,h)
         %function [F,DD,cota,acumulador,tiempo] = reglaTrapecio(x,fx,ddx,F,DD,a,b,h)
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
@@ -59,7 +63,7 @@ if (ok == 1)
         dimst = inputdlg (prompt, "METRODO DE TRAPECIOS",rowscols, defaults);
         datos=strcat(datos,"\nTrapecios__________\t",num2str(cotaT,"%5.14f"),"\t---",num2str(acumuladorT,"%5.5f"),"\t---",num2str(tiempoT,"%5.10f"));
     end
-    if(i==2)
+    if(sel(i)==2)
     [xsim,ysim,cotaN,acumuladorN,tiempoN] = simpson(fx,F,a,b,N);
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
         prompt = {"fx","Lim inferior","Lim superior","Cota de error", "Valor aproximado", "Tiempo"};
@@ -67,7 +71,7 @@ if (ok == 1)
         dimsn = inputdlg (prompt, "METODO DE SIMPSON",rowscols, defaults);
         datos=strcat(datos,"\nSimpson____________\t",num2str(cotaN,"%5.14f"),"\t---",num2str(acumuladorN,"%5.5f"),"\t---",num2str(tiempoN,"%5.10f"));
     end
-    if(i==3) 
+    if(sel(i)==3) 
      [xp,yp,cotaP,acumuladorP,tiempoP]=puntomedio(fx,F,a,b,n);    
           rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
           prompt = {"fx","Lim inferior","Lim superior","cota", "resultado", "tiempo"};
@@ -75,15 +79,15 @@ if (ok == 1)
           dimsp = inputdlg (prompt, "METODO DE PUNTO MEDIO",rowscols, defaults);
           datos=strcat(datos,"\nPunto medio________\t",num2str(cotaP,"%5.14f"),"\t---",num2str(acumuladorP,"%5.5f"),"\t---",num2str(tiempoP,"%5.10f"));
     end
-    if(i==4)
-    [cotaS,acumuladorS,tiempoS] = simple(fx,F,a,b);
+    if(sel(i)==4)
+    [cotaS,acumuladorS,tiempoS] = simple(fx,F,a,b,n);
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
         prompt = {"fx","Lim inferior","Lim superior","Cota de error", "Valor aproximado", "Tiempo"};
         defaults = {F,a,b, cotaS,acumuladorS,tiempoS};
         dims = inputdlg (prompt, "METODO SIMPLE",rowscols, defaults);  
         datos=strcat(datos,"\nSimple_____________\t",num2str(cotaS,"%5.14f"),"\t---",num2str(acumuladorS,"%5.5f"),"\t---",num2str(tiempoS,"%5.10f"));
     end
-    if(i==5)
+    if(sel(i)==5)
       [cota,acumulador,tiempo]=cgaussiana(fx,ddx,a,b,h)
         rowscols = [1,20; 1,20; 1,10; 1,10; 1,10; 1,10  ];
         prompt = {"fx","Lim inferior","Lim superior","Cota de error", "Valor aproximado", "Tiempo"};
@@ -91,7 +95,7 @@ if (ok == 1)
         dimscg = inputdlg (prompt, "CUADRATURA GAUSSIANA",rowscols, defaults);
         datos=strcat(datos,"\nCuadratura de Gauss\t",num2str(cota,"%5.14f"),"\t---",num2str(acumulador,"%5.5f"),"\t---",num2str(tiempo,"%5.10f"));
     end
-     if(i==6)
+     if(sel(i)==6)
      ayuda="VARIABLE: descripcion  \nh: Usada en trapecios (ancho) y el metodo de cuadratura gaussiana \na: Usada en todos los metodos, punto de inicio de la integral \nb: Usada en todos los metodos, punto de final de la integral \nfx: Es la funcion de x a integrar \nddx: Es la segunda derivada de f(x) usada en trapecios para la cota de error \nn: Numero de particiones a tomar en el metodo de punto medio  \nN: Usado en el metodo de simpson \n \n  NOTA: LOS VALORES INICIALES PRESENTES SON SOLO UN EJEMPLO DEL CORRECTO USO DE CADA CAMPO, FAVOR APEGARSE A LA SINTAXIS";
      msgbox (ayuda,'AYUDA INICIAL');
       
@@ -107,13 +111,13 @@ endif
 %________________________________________________________________________
   hold on
   subplot(4,1,1);  
-  plot(xori,fori,'.-r'); title ("Funcion original");xlabel("x");ylabel(F);
+  plot(xori,fori,'.-b'); title ("Funcion original");xlabel("x");ylabel(F);
   subplot(4,1,2);
-  plot(xtrap ,ftrap,'@-g');title ("Metodo de trapecios");xlabel("x");ylabel(F);
+  plot(xtrap ,ftrap,'-r');title ("Metodo de trapecios");xlabel("x");ylabel(F);
   subplot(4,1,3) 
-  plot(xp,yp,'o-b');title ("Metodo de  punto medio");xlabel("x");ylabel(F);
+  plot(xp,yp,'-b');title ("Metodo de  punto medio");xlabel("x");ylabel(F);
   subplot(4,1,4);
-  plot(xsim,ysim,'*-y');title ("Metodo de simpson");xlabel("x");ylabel(F);
+  plot(xsim,ysim,'-b');title ("Metodo de simpson");xlabel("x");ylabel(F);
   hold off
   #plot(rx, frx, 'm');
       
