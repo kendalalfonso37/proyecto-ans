@@ -67,8 +67,7 @@ format long;
           endwhile
        
       %COTA DEL ERROR PARA ESTE METODO:
-      cota=((b-a)^3/12)*mayor; 
-      fprintf('acumulador %10.6f \n', acumulador);
+      cota=abs(quadcc(fx,a,b,0.00000000000001)-acumulador);
       
       
 
